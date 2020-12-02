@@ -2,7 +2,7 @@ import { graphql, useStaticQuery } from 'gatsby';
 import React from 'react';
 
 function countPizzasInToppings(pizzas) {
-  return pizzas
+  const counts = pizzas
     .map((pizza) => pizza.toppings)
     .flat()
     .reduce((acc, topping) => {
