@@ -1,5 +1,29 @@
-import { graphql, useStaticQuery } from 'gatsby';
+import { graphql, Link, useStaticQuery } from 'gatsby';
 import React from 'react';
+import styled from 'styled-components';
+
+const ToppingsStyles = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-botom: 4rem;
+  a {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0 1rem;
+    align-items: center;
+    padding: 5px;
+    background: var(--grey);
+    border-radius: 2px;
+    .count {
+      background: white;
+      padding: 2px 5px;
+    }
+    .active {
+      background: var(--yellow);
+    }
+  }
+`;
 
 function countPizzasInToppings(pizzas) {
   const counts = pizzas
@@ -11,15 +35,21 @@ function countPizzasInToppings(pizzas) {
       if (existingTopping) {
         // if it is, increment by 1
         existingTopping.count += 1;
+      } else {
+        // otherwise create a new entry in our acc and set it to one
+        acc[topping.id] = {
+          id: topping.id,
+          name: topping.name,
+          count: 1,
+        };
       }
-      // otherwise create a new entry in our acc and set it to one
-      acc[topping.id] = {
-        id: topping.id,
-        name: topping.name,
-        count: 1,
-      };
       return acc;
     }, {});
+  // sort them bassed on their count
+  const sortedToppings = Object.values(counts).sort(
+    (a, b) => b.count - a.count
+  );
+  return sortedToppings;
 }
 
 export default function ToppingsFilter() {
@@ -45,12 +75,16 @@ export default function ToppingsFilter() {
     }
   `);
   // Count how many pizzas are in each topping
-  const toppingWithCounts = countPizzasInToppings(pizzas.nodes);
-  // Loop over the list of toppings and siplay the topping and the count of pizzas in that topping
-  // Link it up...
+  const toppingsWithCounts = countPizzasInToppings(pizzas.nodes);
   return (
-    <div>
-      <p>TOPPINGS!</p>
-    </div>
+    <ToppingsStyles>
+      {/* Loop over the list of toppings and siplay the topping and the count of pizzas in that topping */}
+      {toppingsWithCounts.map((topping) => (
+        <Link to={`/topping/${topping.name}`} key={topping.id}>
+          <span className="name">{topping.name}</span>
+          <span className="count">{topping.count}</span>
+        </Link>
+      ))}
+    </ToppingsStyles>
   );
 }
