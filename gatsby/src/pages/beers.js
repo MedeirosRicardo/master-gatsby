@@ -7,6 +7,7 @@ const BeerGridStyles = styled.div`
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  margin-top: 1rem;
 `;
 
 const SingleBeerStyles = styled.div`
@@ -36,7 +37,14 @@ export default function BeersPage({ data }) {
           const rating = Math.round(beer.rating.average);
           return (
             <SingleBeerStyles key={beer.id}>
-              <img src={beer.image} alt={beer.name} />
+              <img
+                src={beer.image}
+                alt={beer.name}
+                onError={(e) =>
+                  (e.target.src =
+                    'https://www.totalwine.com/media/sys_master/cmsmedia/hff/h0e/8979036078110.png')
+                }
+              />
               <h3>{beer.name}</h3>
               {beer.price}
               <p title={`${rating} out of 5 stars`}>
