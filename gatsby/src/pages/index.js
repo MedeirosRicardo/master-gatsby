@@ -3,6 +3,7 @@ import ItemGrid from '../components/ItemGrid';
 import LoadingGrid from '../components/LoadingGrid';
 import { HomePageGrid } from '../styles/Grids';
 import useLatestData from '../utils/useLatestData';
+import SEO from '../components/SEO';
 
 function CurrentlySlicing({ slicemasters }) {
   return (
@@ -37,13 +38,16 @@ function HotSlices({ hotSlices }) {
 export default function HomePage() {
   const { slicemasters, hotSlices } = useLatestData();
   return (
-    <div className="center">
-      <h1>The Best Pizza Downtown!</h1>
-      <p>Open 11am to 11pm Every Single Day</p>
-      <HomePageGrid>
-        <CurrentlySlicing slicemasters={slicemasters} />
-        <HotSlices hotSlices={hotSlices} />
-      </HomePageGrid>
-    </div>
+    <>
+      <SEO title="Hot Now!" />
+      <div className="center">
+        <h1>The Best Pizza Downtown!</h1>
+        <p>Open 11am to 11pm Every Single Day</p>
+        <HomePageGrid>
+          <CurrentlySlicing slicemasters={slicemasters} />
+          <HotSlices hotSlices={hotSlices} />
+        </HomePageGrid>
+      </div>
+    </>
   );
 }

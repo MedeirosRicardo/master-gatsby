@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Create an order context
 const OrderContext = React.createContext();
 
-export function OrderPrivider({ children }) {
+export function OrderProvider({ children }) {
   // we need to stick state in here
   const [order, setOrder] = useState([]);
   return (
